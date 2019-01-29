@@ -18,34 +18,29 @@ end
 def get_squares_count
   print "Please enter how many squares you want:  "
   squares_count = gets.chomp.to_i
-  return squares_count
+  return squares_count.to_i
 end
 
 rows_and_columns = [
-  "Q1 Patriots row numbers",
-  "Q2 Patriots row numbers",
-  "Q3 Patriots row numbers",
-  "Q4 Patriots row numbers",
-  "Q1 Rams column numbers",
-  "Q2 Rams column numbers",
-  "Q3 Rams column numbers",
-  "Q4 Rams column numbers"
+  "Q1 NE",
+  "Q2 NE",
+  "Q3 NE",
+  "Q4 NE",
+  "Q1 LA",
+  "Q2 LA",
+  "Q3 LA",
+  "Q4 LA"
 ]
 
-loop_count = rows_and_columns.count
-rows_and_columns.shuffle!
 rows_and_columns_and_values = {}
 
 # puts "#{rows_and_columns}"
 
-loop_count.times do
-  column_configuration = rows_and_columns.pop
-  rows_and_columns_and_values[column_configuration] = set_values
+i=0
+while i < rows_and_columns.count do
+  rows_and_columns_and_values[rows_and_columns[i]] = set_values
+  i += 1
 end
-
-# rows_and_columns_and_values.sort.map do |key, value|
-#   puts "#{key} #{value}"
-# end
 
 coordinates = []
 x = 1
@@ -73,12 +68,44 @@ while coordinates.count > 0 do
     squares_count = get_squares_count
   end
 
-  squares_count.to_i.times do
+  squares_count.times do
     squares_and_name[coordinates.pop] = name
   end
   puts "The count for available squares is now #{coordinates.count}"
 end
 
-squares_and_name.sort.map do |key, value|
-  puts "#{key} #{value}"
+# squares_and_name.sort.map do |key, value|
+#   puts "#{key} #{value}"
+# end
+
+
+for i in 0..3
+  print "#{rows_and_columns[i]}: ===>".ljust(16)
+  for j in 0..9
+    print "#{rows_and_columns_and_values[rows_and_columns[i]][j]}".ljust(12)
+  end
+  puts ""
 end
+
+
+i=1
+squares_and_name.sort.map do |key, value|
+  if i % 10 == 1
+    print "#{rows_and_columns_and_values[rows_and_columns[4]][(i/10)]}".ljust(4)
+    print "#{rows_and_columns_and_values[rows_and_columns[5]][(i/10)]}".ljust(4)
+    print "#{rows_and_columns_and_values[rows_and_columns[6]][(i/10)]}".ljust(4)
+    print "#{rows_and_columns_and_values[rows_and_columns[7]][(i/10)]}".ljust(4)
+  end
+  print "#{value.ljust(12)}"
+  if i % 10 == 0
+    puts ""
+  end
+  i += 1
+end
+
+# for x in 1..10
+#   for y in 1..10
+#     print "#{value}  "
+#   end
+#   puts ""
+# end
