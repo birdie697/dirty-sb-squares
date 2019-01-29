@@ -79,8 +79,25 @@ end
 # end
 
 
+# for i in 0..3
+#   print "#{rows_and_columns[i]}: ===>".ljust(16)
+#   for j in 0..9
+#     print "#{rows_and_columns_and_values[rows_and_columns[i]][j]}".ljust(12)
+#   end
+#   puts ""
+# end
+
 for i in 0..3
-  print "#{rows_and_columns[i]}: ===>".ljust(16)
+  case i
+  when 0
+    print "LA".ljust(6) + "NE>>".ljust(6) + "Q1".ljust(4)
+  when 1
+    print "\\/".ljust(12) + "Q2".ljust(4)
+  when 2
+    print "\\/".ljust(12) + "Q3".ljust(4)
+  when 3
+    print "Q1".ljust(4) + "Q2".ljust(4) + "Q3".ljust(4) + "Q4".ljust(4)
+  end
   for j in 0..9
     print "#{rows_and_columns_and_values[rows_and_columns[i]][j]}".ljust(12)
   end
