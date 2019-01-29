@@ -1,27 +1,8 @@
-def set_values
-  array_1_to_10 = []
-  while array_1_to_10.count < 10 do
-    lucky_number = rand(1..10)-1
-    if !array_1_to_10.include?(lucky_number)
-      array_1_to_10.push(lucky_number)
-    end
-  end
-  return array_1_to_10
-end
+require_relative "lib/collect_input"
+require_relative "lib/generate_numbers"
+require_relative "lib/disperse_output"
 
-def get_name
-  print "Please enter a name:  "
-  name = gets.chomp
-  return name
-end
-
-def get_squares_count
-  print "Please enter how many squares you want:  "
-  squares_count = gets.chomp.to_i
-  return squares_count.to_i
-end
-
-rows_and_columns = [
+quater_team = [
   "Q1 NE",
   "Q2 NE",
   "Q3 NE",
@@ -32,86 +13,46 @@ rows_and_columns = [
   "Q4 LA"
 ]
 
-rows_and_columns_and_values = {}
-
-# puts "#{rows_and_columns}"
+quater_team_scores = {}
 
 i=0
-while i < rows_and_columns.count do
-  rows_and_columns_and_values[rows_and_columns[i]] = set_values
+while i < quater_team.count do
+  quater_team_scores[quater_team[i]] = Generate_numbers.quarter_scores
   i += 1
 end
 
-coordinates = []
-x = 1
-10.times do
-  y = 1
-  10.times do
-    coordinates.push([x,y])
-    y += 1
-  end
-  x += 1
-end
-
-# puts "#{coordinates}"
-
-coordinates.shuffle!
+coordinates = Generate_numbers.create_coordinates
 
 squares_and_name = {}
 
 while coordinates.count > 0 do
-  name = get_name
-  squares_count = get_squares_count
+  name = Collect_input.get_name
+  squares_count = Collect_input.get_squares_count
 
   while squares_count > coordinates.count do
-    puts "You cannot purchase that many squares!  Try again."
-    squares_count = get_squares_count
+    squares_count = Collect_input.try_again
   end
 
   squares_count.times do
     squares_and_name[coordinates.pop] = name
   end
-  puts "The count for available squares is now #{coordinates.count}"
+  puts "#{Disperse_output.available_squares(coordinates.count)}"
 end
 
-# squares_and_name.sort.map do |key, value|
-#   puts "#{key} #{value}"
-# end
-
-
-# for i in 0..3
-#   print "#{rows_and_columns[i]}: ===>".ljust(16)
-#   for j in 0..9
-#     print "#{rows_and_columns_and_values[rows_and_columns[i]][j]}".ljust(12)
-#   end
-#   puts ""
-# end
-
 for i in 0..3
-  case i
-  when 0
-    print "LA".ljust(6) + "NE>>".ljust(6) + "Q1".ljust(4)
-  when 1
-    print "\\/".ljust(12) + "Q2".ljust(4)
-  when 2
-    print "\\/".ljust(12) + "Q3".ljust(4)
-  when 3
-    print "Q1".ljust(4) + "Q2".ljust(4) + "Q3".ljust(4) + "Q4".ljust(4)
-  end
+  print "#{Disperse_output.row_and_column_headers(i)}"
   for j in 0..9
-    print "#{rows_and_columns_and_values[rows_and_columns[i]][j]}".ljust(12)
+    print "#{quater_team_scores[quater_team[i]][j]}".ljust(12)
   end
   puts ""
 end
 
-
 i=1
 squares_and_name.sort.map do |key, value|
   if i % 10 == 1
-    print "#{rows_and_columns_and_values[rows_and_columns[4]][(i/10)]}".ljust(4)
-    print "#{rows_and_columns_and_values[rows_and_columns[5]][(i/10)]}".ljust(4)
-    print "#{rows_and_columns_and_values[rows_and_columns[6]][(i/10)]}".ljust(4)
-    print "#{rows_and_columns_and_values[rows_and_columns[7]][(i/10)]}".ljust(4)
+    for j in 4..7
+      print "#{quater_team_scores[quater_team[j]][(i/10)]}".ljust(4)
+    end
   end
   print "#{value.ljust(12)}"
   if i % 10 == 0
@@ -119,10 +60,3 @@ squares_and_name.sort.map do |key, value|
   end
   i += 1
 end
-
-# for x in 1..10
-#   for y in 1..10
-#     print "#{value}  "
-#   end
-#   puts ""
-# end
