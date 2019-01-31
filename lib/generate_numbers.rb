@@ -1,5 +1,12 @@
 module Generate_numbers
 
+  def get_current_time
+    time = Time.now
+    current_time = time.strftime("%Y-%m-%d-%H:%M:%S")
+    return current_time
+  end
+  module_function :get_current_time
+
   def quarter_scores
     array_1_to_10 = []
     while array_1_to_10.count < 10 do

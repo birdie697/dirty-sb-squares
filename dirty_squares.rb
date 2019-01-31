@@ -1,6 +1,11 @@
 require_relative "lib/collect_input"
 require_relative "lib/generate_numbers"
 require_relative "lib/disperse_output"
+require_relative "lib/constants"
+
+puts "#{Disperse_output.how_to_play(Constants::CURRENT_TIME)}"
+
+Disperse_output.open_file_write(Disperse_output.how_to_play(Constants::CURRENT_TIME))
 
 quater_team = [
   "Q1 NE",
@@ -42,21 +47,28 @@ end
 for i in 0..3
   print "#{Disperse_output.row_and_column_headers(i)}"
   for j in 0..9
-    print "#{quater_team_scores[quater_team[i]][j]}".ljust(12)
+    quarter_score = quater_team_scores[quater_team[i]][j]
+    print "#{quarter_score}".ljust(12)
+    Disperse_output.open_file_print_append("#{quarter_score}".ljust(12))
   end
   puts ""
+  Disperse_output.open_file_append("")
 end
 
 i=1
 squares_and_name.sort.map do |key, value|
   if i % 10 == 1
     for j in 4..7
-      print "#{quater_team_scores[quater_team[j]][(i/10)]}".ljust(4)
+      quarter_score = quater_team_scores[quater_team[j]][(i/10)]
+      print "#{quarter_score}".ljust(4)
+      Disperse_output.open_file_print_append("#{quarter_score}".ljust(4))
     end
   end
   print "#{value.ljust(12)}"
+  Disperse_output.open_file_print_append("#{value}".ljust(12))
   if i % 10 == 0
     puts ""
+    Disperse_output.open_file_append("")
   end
   i += 1
 end
